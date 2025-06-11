@@ -1,0 +1,5 @@
+git clone kodu ile repo klonlanır
+git add kodu ile kodlar eklenir
+git checkout: bir brençe geçmek için kullanılır
+git checkout -b: eğer yoksa oluştur kodudur
+git checkout -b feature/eyup/1  -b isim ve issues kodu ile yapılır

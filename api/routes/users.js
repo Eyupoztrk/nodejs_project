@@ -8,9 +8,10 @@ const CustomError = require('../lib/Error'); // Hata yönetimi için Error modü
 const Enum = require('../config/Enum'); // Enum yapılandırmasını içe aktar
 const bcrypt = require('bcrypt'); // Şifreleme için bcrypt modülünü içe aktar
 const is = require('is_js'); // Veri doğrulama için is_js modülünü içe aktar
+const RolePrivileges = require('../db/Models/RolePrivileges');
 
 /* GET users listing. */
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   try {
     let users = await Users.find({}); // Users modelinden tüm kullanıcıları bulur
 

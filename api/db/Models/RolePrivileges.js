@@ -6,10 +6,9 @@ const rolePrivilegesSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             required: true, // bu alan zorunludur
         },
-        permision: {typer: String, required: true}, // permission alanı zorunludur
+        permision: {type: String, required: true}, // permission alanı zorunludur
         created_by:{
-            type: mongoose.Schema.Types.ObjectId, // ObjectId türünde bir alan
-            required: true, // bu alan zorunludur
+            type: mongoose.Schema.Types.ObjectId, // ObjectId türünde bir alan 
         }
     },
 

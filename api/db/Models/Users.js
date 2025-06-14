@@ -4,9 +4,9 @@ const userSchema = new mongoose.Schema(
     {
         email: {type: String, required: true, unique: true}, // email alanı zorunludur ve benzersiz olmalıdır
         password: {type: String, required: true}, // password alanı zorunludur
-        is_active: {type: Boolean, default: ture},
-        firstName: String,
-        lastName: String,
+        is_active: {type: Boolean, default: true},
+        first_name: String,
+        last_name: String,
         phone_number: String,
     },
 

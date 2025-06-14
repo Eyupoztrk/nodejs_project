@@ -1,5 +1,47 @@
-git clone kodu ile repo klonlanır
-git add kodu ile kodlar eklenir
-git checkout: bir brençe geçmek için kullanılır
-git checkout -b: eğer yoksa oluştur kodudur
-git checkout -b feature/eyup/1  -b isim ve issues kodu ile yapılır
+GIT KOMUTLARI VE AÇIKLAMALARI
+
+1. Depoyu Klonlamak (Repo’yu bilgisayara indirmek)
+   git clone <repo-url>
+
+2. Değişiklikleri Sahneye Eklemek (Staging)
+   git add .
+   - Tüm dosyaları sahneye ekler (commit’e hazırlık).
+
+3. Commit Oluşturmak
+   git commit -m "Mesaj"
+   - Yapılan değişiklikleri anlamlı bir mesajla kaydeder.
+
+4. Değişiklikleri Uzak Depoya (GitHub) Göndermek
+   git push
+
+5. Var Olan Bir Branch’e Geçmek
+   git checkout <branch-adi>
+
+6. Yeni Bir Branch Oluşturup Ona Geçmek
+   git checkout -b <yeni-branch-adi>
+   Örnek:
+   git checkout -b feature/eyup/1
+   - "feature/eyup/1" adında bir branch oluşturur ve ona geçer.
+
+7. Yeni Oluşturulan Branch’i GitHub’a Göndermek
+   git push --set-upstream origin feature/eyup/1
+   - İlk kez oluşturulan bir branch’i uzak depoya gönderir ve bağlantı kurar.
+
+8. Uzak Depodaki Tüm Branch’leri Görüntülemek
+   git branch -r
+
+9. Tüm Branch’leri (Yerel + Uzak) Görüntülemek
+   git branch -a
+
+10. Branch Silmek
+    Yerelde silmek:
+    git branch -d <branch-adi>
+    
+    Uzakta (GitHub'da) silmek:
+    git push origin --delete <branch-adi>
+
+11. Uzak Depodaki Değişiklikleri Çekmek
+    git pull
+
+12. Uzak Branch’ten Kod Çekmek (örneğin geliştirme dalı)
+    git pull origin develop

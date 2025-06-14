@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const categoriesSchema = new mongoose.Schema(
     {
+        name: {type: String, required: true}, // name alanı zorunludur
         is_active: {type: Boolean, default: true}, // is_active alanı varsayılan olarak true'dur
         createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            required: true, // bu alan zorunludur
+            type: mongoose.Schema.Types.ObjectId, // bu alan zorunludur
         }
 
     },
@@ -22,5 +22,5 @@ class Categories extends mongoose.Model{
 
 }
 
-categoriesSchema.loadClass(AuditLogs); 
+categoriesSchema.loadClass(Categories); 
 module.exports = mongoose.model("categories", categoriesSchema); 

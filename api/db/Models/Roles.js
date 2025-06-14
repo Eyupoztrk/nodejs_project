@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
+const RolePrivileges = require('./RolePrivileges');
 
 const rolesSchema = new mongoose.Schema(
     {
-        role_name: {type: String, required: true}, // role_name alanı zorunludur
+        role_name: {type: String, required: true, unique: true}, // role_name alanı zorunludur
         is_active: {type: Boolean, default: true}, // is_active alanı varsayılan olarak true'dur
         created_by: {
-            type: mongoose.Schema.Types.ObjectId, // ObjectId türünde bir alan
-            required: true, // bu alan zorunludur
+            type: mongoose.Schema.Types.ObjectId // ObjectId türünde bir alan
+             // bu alan zorunludur
         },
     },
 
@@ -18,8 +19,14 @@ const rolesSchema = new mongoose.Schema(
 
 class Roles extends mongoose.Model{
 
-    //buraya Roles sınıfının metodlarını yazabiliriz
+    async deleteOne(query)
+    {
+        if(query._id) // Eğer sorguda _id varsa  
+          await RolePrivileges.deleteOne({ role_id: query._id }) // RolePrivileges modelinden role_id'si eşleşen kayıtları siler
 
+       await super.deleteOne(query); // deleteOne metodunu kullanır
+    }
+    
 }
 
 rolesSchema.loadClass(Roles); // rolesScheme'ya Roles sınıfını yükler, böylece Roles sınıfının metodlarını kullanabiliriz

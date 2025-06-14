@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 if(process.env.NODE_ENV !== 'production') // Env dosyası sadece production ortamında kullanılacaksa
    require('dotenv').config(); // bu env dosyasının içeriğini yükler
 

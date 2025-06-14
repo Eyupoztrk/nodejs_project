@@ -16,7 +16,7 @@ const logger = require("../lib/Logger/LoggerClass"); // system ile daha profesyo
 
 
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     // req ve res parametreleri ile gelen istek ve cevapları kullanabiliriz 
     // next fonksiyonu ile bir sonraki middleware'e geçebiliriz eğer başka bir get falan varsa
     // "/" endpoint'ine gelen GET isteği için bir cevap döndür
@@ -31,7 +31,7 @@ router.get('/', async (req, res, next) => {
 
 });
 
-router.post('/add', async (req, res, next) => {
+router.post('/add', async (req, res) => {
     let body = req.body; // İstek gövdesinden gelen veriyi alır
     try {
         if (!body.name) // Eğer name alanı boş ise
@@ -55,7 +55,7 @@ router.post('/add', async (req, res, next) => {
 
 });
 
-router.post('/update', async (req, res, next) => {
+router.post('/update', async (req, res) => {
     let body = req.body;
 
     try {
@@ -81,7 +81,7 @@ router.post('/update', async (req, res, next) => {
 
 });
 
-router.post('/delete', async (req, res, next) => {
+router.post('/delete', async (req, res) => {
     let body = req.body;
     try {
         if (!body._id) // Eğer _id alanı boş ise

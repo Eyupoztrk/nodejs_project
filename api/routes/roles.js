@@ -1,7 +1,7 @@
 const express = require('express'); // Express framework'ü içe aktar
 const router = express.Router(); // Router nesnesi oluştur
 const Roles = require('../db/Models/Roles'); // Roller modelini içe aktar
-
+const CustomError = require("../lib/Error");
 const RolePrivileges = require('../db/Models/RolePrivileges'); // Roller ve izinler modelini içe aktar
 const Response = require('../lib/Response'); // Yanıt yönetimi için Response modülünü içe aktar
 const Enum = require('../config/Enum'); // Enum yapılandırmasını içe aktar

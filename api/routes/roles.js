@@ -6,7 +6,15 @@ const RolePrivileges = require('../db/Models/RolePrivileges'); // Roller ve izin
 const Response = require('../lib/Response'); // Yanıt yönetimi için Response modülünü içe aktar
 const Enum = require('../config/Enum'); // Enum yapılandırmasını içe aktar
 const role_privileges = require('../config/role_privileges'); // Rol izinlerini içe aktar
-router.get('/', async (req, res) => {
+
+const auth = require("../lib/auth")();  // token bilgilerine bakacak sınıf ve bu sınıf fonksiyon olduğu için () ile import edilmeli
+
+
+router.all('*', auth.authenticate(),  (req, res, next) => {
+    next(); // eğer token bilgisi varsa yani kullanıcının tokeni varsa diğer auditlogs işlemlerini yapsın yoksa hiç next olamaz
+});
+
+router.get('/', auth.checkRoles("role_view"),async (req, res) => {
 
     try {
         let roles = await Roles.find({}); // Veritabanından tüm rolleri getirir
@@ -17,7 +25,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/add', async (req, res) => {
+router.post('/add', auth.checkRoles("role_add"),async (req, res) => {
     let body = req.body;
 
     try {
@@ -57,7 +65,7 @@ router.post('/add', async (req, res) => {
 });
 
 
-router.post('/update', async (req, res) => {
+router.post('/update', auth.checkRoles("role_update"),async (req, res) => {
     let body = req.body;
 
     try {
@@ -122,7 +130,7 @@ router.post('/update', async (req, res) => {
 
     });
 
-router.post('/delete', async (req, res) => {
+router.post('/delete',auth.checkRoles("role_delete"), async (req, res) => {
     let body = req.body;
 
     try {

@@ -1,6 +1,7 @@
 const Enum = require("../config/Enum");
 const AuditLogsDB = require("../db/Models/AuditLogs");
 
+
 let instance = null;
 
 class AuditLogs {

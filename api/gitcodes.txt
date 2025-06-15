@@ -45,3 +45,6 @@ GIT KOMUTLARI VE AÇIKLAMALARI
 
 12. Uzak Branch’ten Kod Çekmek (örneğin geliştirme dalı)
     git pull origin develop
+13. git stash ile eğer main ile çakışma varsa ve maine geçmeye izin vemriyorsa bunu yaz ve bu çakışanları ayrı bir yere alır
+maine geçip başkalarının yaptığı şeyleri çekiyoruz git pull ile daha sonra da git stash pop ile ayrı bir yere aldığımız şeyleri geri getiriyoruz
+ 

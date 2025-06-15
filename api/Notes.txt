@@ -1,2 +1,6 @@
 Eslint kütüphanesi kod yanlışlarını gösteren bir kütüphanedir
 kurulumu:  npm install eslint  ve   npx eslint --init 
+
+
+JWT için
+kurulum: npm install passport passport-jwt ve kullanmak için npm install jwt-simple kütüphanelerini kuruyoruz

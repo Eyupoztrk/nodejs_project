@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const CustomError = require("../../lib/Error");
+const Enum = require("../../config/Enum");
+const is = require("is_js");
+const bcrypt = require('bcrypt'); // Şifreleme için bcrypt modülünü içe aktar
 
 const userSchema = new mongoose.Schema(
     {
@@ -18,6 +22,18 @@ const userSchema = new mongoose.Schema(
 class Users extends mongoose.Model{
 
     //buraya Users sınıfının metodlarını yazabiliriz
+
+    validPassword(password)
+    {
+        return bcrypt.compareSync(password,this.password);
+    }
+
+    static validateFieldsBeforeAuth(email,password)
+    {
+        if(typeof password !== "string" || password.length < Enum.PASS_LENGTH || is.not.email(email))
+            throw new CustomError(Enum.HTTP_CODES.UNAUTHORIZED,"Valitadion Error", "Email or password is wrong");
+        return null;
+    }
 
 }
 

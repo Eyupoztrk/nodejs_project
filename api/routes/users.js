@@ -8,7 +8,9 @@ const CustomError = require('../lib/Error'); // Hata yönetimi için Error modü
 const Enum = require('../config/Enum'); // Enum yapılandırmasını içe aktar
 const bcrypt = require('bcrypt'); // Şifreleme için bcrypt modülünü içe aktar
 const is = require('is_js'); // Veri doğrulama için is_js modülünü içe aktar
+const config = require('../config');
 const RolePrivileges = require('../db/Models/RolePrivileges');
+const JWT = require("jwt-simple");
 
 /* GET users listing. */
 router.get('/', async (req, res) => {
@@ -113,7 +115,7 @@ router.post('/update', async (req, res) => {
             let userRole = new RolePrivileges({
               role_id: newRoles[i], // Rol ID'sini atar
               user_id: body._id // İzin anahtarını atar
-              
+
             });
 
             await userRole.save(); // İzni veritabanına kaydeder
@@ -152,7 +154,7 @@ router.post('/delete', async (req, res) => {
 
     await Users.deleteOne({ _id: body._id }); // Kullanıcıyı siler
 
-    await UserRoles.deleteMany({user_id: body._id});
+    await UserRoles.deleteMany({ user_id: body._id });
 
     res.json(Response.successResponse(Enum.RESPONSE_MESSAGES.DELETED)); // Başarılı bir yanıt döndürür
 
@@ -219,6 +221,45 @@ router.post('/register', async (req, res) => {
   }
   catch (err) {
     res.json(Response.errorResponse(err)); // Hata durumunda hata mesajını döner
+  }
+});
+
+
+router.post('/auth', async (req, res) => {
+  try {
+    let { email, password } = req.body;
+
+    Users.validateFieldsBeforeAuth(email, password);
+    let user = await Users.findOne({ email });
+    
+
+    if (!user)
+      throw new CustomError(Enum.HTTP_CODES.UNAUTHORIZED, "validation", "Email or Password wrong");
+
+    console.log("bbb");
+    if (!user.validPassword(password))
+      throw new CustomError(Enum.HTTP_CODES.UNAUTHORIZED, "validation", "Email or Password wrong");
+    console.log("ccc");
+
+    let payload = {
+      id: user._id,
+      exp: parseInt(Date.now() / 1000) * config.JWT.EXP_TIME // token süresi hesaplanıyor
+
+    }
+
+    let token = JWT.encode(payload, config.JWT.SECRET);
+    let userData = {
+      id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name
+    }
+
+
+    res.json(Response.successResponse({ token, user: userData }));
+
+  } catch (err) {
+    res.json(Response.errorResponse(err)); // Hata durumunda hata mesajını döner
+
   }
 });
 

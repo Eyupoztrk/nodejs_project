@@ -28,7 +28,8 @@ HTTP_CODES: {
     WARN: "WARN",
     ERROR: "ERROR",
     DEBUG: "DEBUG"
-  }
+  },
+  PASS_LENGTH: 8
 
 
 

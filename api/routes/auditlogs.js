@@ -5,9 +5,14 @@ const Response = require('../lib/Response');
 const moment = require('moment'); // zaman yönetimi sağlayan kütüphanedir
 
 const AuditLogs = require('../db/Models/AuditLogs');
+const auth = require("../lib/auth")();  // token bilgilerine bakacak sınıf ve bu sınıf fonksiyon olduğu için () ile import edilmeli
 
 
-router.post('/', async (req, res) => {  // post yaptık çünkü req.body ile daha iyi veri alınır post yaparsak
+router.all('*', auth.authenticate(),  (req, res, next) => {
+    next(); // eğer token bilgisi varsa yani kullanıcının tokeni varsa diğer auditlogs işlemlerini yapsın yoksa hiç next olamaz
+});
+
+router.post('/',auth.checkRoles("auditlogs_view"), async (req, res) => {  // post yaptık çünkü req.body ile daha iyi veri alınır post yaparsak
 
     try {
         // Auditlogs çok büyük bir tablo olacğaından daha düzenli hale getirmek gerekiyor
@@ -17,12 +22,10 @@ router.post('/', async (req, res) => {  // post yaptık çünkü req.body ile da
         let skip = body.skip;
         let limit = body.limit;
 
-        if(typeof body.skip !== "number")
-        {
+        if (typeof body.skip !== "number") {
             skip = 0;
         }
-        if(typeof body.limit !=="number" || body.limit >500)
-        {
+        if (typeof body.limit !== "number" || body.limit > 500) {
             limit = 500;
         }
 
@@ -48,7 +51,7 @@ router.post('/', async (req, res) => {  // post yaptık çünkü req.body ile da
 
         }
 
-        let auditLogs = await AuditLogs.find(query).sort({created_at: -1}).skip(skip).limit(limit); // 500 satır getir demek ve skip ile süreki sürekli 500er olarak getir demek
+        let auditLogs = await AuditLogs.find(query).sort({ created_at: -1 }).skip(skip).limit(limit); // 500 satır getir demek ve skip ile süreki sürekli 500er olarak getir demek
         // ve created_at ile yani ilk yapılanlara göre tersten sıralama demek (-1 oluğu için)
         res.json(Response.successResponse(auditLogs));
 

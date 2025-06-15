@@ -14,9 +14,14 @@ const logger = require("../lib/Logger/LoggerClass"); // system ile daha profesyo
  * Delete
  */
 
+const auth = require("../lib/auth")();  // token bilgilerine bakacak sınıf ve bu sınıf fonksiyon olduğu için () ile import edilmeli
 
 
-router.get('/', async (req, res) => {
+router.all('*', auth.authenticate(),  (req, res, next) => {
+    next(); // eğer token bilgisi varsa yani kullanıcının tokeni varsa diğer auditlogs işlemlerini yapsın yoksa hiç next olamaz
+});
+
+router.get('/', auth.checkRoles("category_view"), async (req, res) => {
     // req ve res parametreleri ile gelen istek ve cevapları kullanabiliriz 
     // next fonksiyonu ile bir sonraki middleware'e geçebiliriz eğer başka bir get falan varsa
     // "/" endpoint'ine gelen GET isteği için bir cevap döndür
@@ -31,7 +36,7 @@ router.get('/', async (req, res) => {
 
 });
 
-router.post('/add', async (req, res) => {
+router.post('/add', auth.checkRoles("category_add"),async (req, res) => {
     let body = req.body; // İstek gövdesinden gelen veriyi alır
     try {
         if (!body.name) // Eğer name alanı boş ise
@@ -55,7 +60,7 @@ router.post('/add', async (req, res) => {
 
 });
 
-router.post('/update', async (req, res) => {
+router.post('/update', auth.checkRoles("category_update"),async (req, res) => {
     let body = req.body;
 
     try {
@@ -81,7 +86,7 @@ router.post('/update', async (req, res) => {
 
 });
 
-router.post('/delete', async (req, res) => {
+router.post('/delete', auth.checkRoles("category_delete"),async (req, res) => {
     let body = req.body;
     try {
         if (!body._id) // Eğer _id alanı boş ise

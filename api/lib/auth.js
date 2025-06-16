@@ -38,7 +38,7 @@ module.exports = function () {
                         email: user.email,
                         firs_name: user.firs_name,
                         last_name: user.last_name,
-                        exp: parseInt(Date.now() / 1000) * config.JWT.EXP_TIME // token süresi hesaplanıyor
+                        exp: parseInt(Date.now() / 1000) + config.JWT.EXP_TIME // token süresi hesaplanıyor
                     });
                 } else {
                     // Kullanıcı bulunamazsa hata döndürülüyor
